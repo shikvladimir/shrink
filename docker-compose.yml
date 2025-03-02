@@ -1,0 +1,72 @@
+services:
+    nginx:
+        image: nginx:alpine
+        volumes:
+            - ./laravel:/var/www
+            - ./_docker/nginx/conf.d:/etc/nginx/conf.d
+        ports:
+            - "${APP_PORT}:80"
+        env_file:
+            - ./.env
+        container_name: nginx_${APP_NAME}
+        restart: always
+        depends_on:
+            - app
+
+    app:
+        build:
+            context: .
+            dockerfile: _docker/app/Dockerfile
+        volumes:
+            - ./laravel:/var/www
+        restart: always
+        container_name: app_${APP_NAME}
+
+#    supervisor:
+#        env_file:
+#            - ./.env
+#        build:
+#            context: .
+#            dockerfile: _docker/supervisor/Dockerfile
+#        volumes:
+#            - ./laravel:/var/www
+#            - ./_docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf
+#        restart: always
+#        container_name: supervisor_${APP_NAME}
+
+    db:
+        image: mysql:8.0
+        restart: always
+        env_file:
+            - ./.env
+        volumes:
+            - ./database/db:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: ${DB_NAME}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_HOST: "%"
+        ports:
+            - "${DB_PORT}:3306"
+        command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+        container_name: db_${APP_NAME}
+
+    redis:
+        env_file:
+            - ./.env
+        image: redis:alpine
+        ports:
+            - "${REDIS_PORT}:6379"
+        restart: always
+        container_name: redis_${APP_NAME}
+
+    node:
+        build:
+            context: .
+            dockerfile: _docker/nodejs/Dockerfile
+        restart: always
+        volumes:
+            - ./vue:/var/vue
+        ports:
+            - "${NODE_PORT}:5173"
+        working_dir: /var/vue
+        container_name: node_${APP_NAME}
