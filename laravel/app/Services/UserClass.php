@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserClass
 {
+    public function get()
+    {
+        $user['name'] = Auth::user()->name;
+        $user['auth'] =  true;
+
+        return $user;
+    }
+
     public function register(array $data): void
     {
         User::create([
@@ -19,16 +27,15 @@ class UserClass
         ]);
     }
 
-    public function login(array $data)
+    public function login(object $request)
     {
-        if(Auth::attempt(['email' => $data['email'], 'password' => $data['pass']])){
-
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->pass])){
             $user = Auth::user();
-            $success['token'] =  $user->createToken('test')->plainTextToken;
             $success['name'] =  $user['name'];
             $success['auth'] =  true;
             $success['status'] = 'User login successfully.';
 
+            $request->session()->regenerate();
             return $success;
         }
         throw new \Exception('Unauthorised.');
@@ -36,20 +43,8 @@ class UserClass
 
     public function logout(): void
     {
-//        throw new \Exception(auth()->user(), 400);
-//        dd(auth()->user());
-//        auth()->user()->tokens()->delete();
-
-        $user = Auth::user();
-
-        dd($user);
-
-        if (!$user) {
-            throw new \Exception('Пользователь не аутентифицирован.');
-        }
-
-        // Удаляем только текущий токен
-        $user->currentAccessToken()->delete();
-
+        Auth::guard('web')->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
     }
 }

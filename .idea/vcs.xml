@@ -6,6 +6,7 @@
     <mapping directory="$PROJECT_DIR$/laravel" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/laravel/inertia-laravel" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/sakai-vue" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/shrink" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/vue" vcs="Git" />
   </component>
 </project>

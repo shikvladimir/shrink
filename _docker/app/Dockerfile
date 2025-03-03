@@ -47,11 +47,6 @@ COPY ./.env /var/www/_docker/
 RUN chmod 777 -R storage
 RUN chmod +x /var/www/entrypoint.sh
 
-#RUN apt-get update && apt-get install -y curl gnupg
-#RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
-#RUN apt-get install -y nodejs
-
-
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --filename=composer \

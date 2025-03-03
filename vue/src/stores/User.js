@@ -1,5 +1,8 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import axios from 'axios';
+const API_URL = 'http://127.0.0.1:8897';
+
+axios.defaults.withCredentials = true;
 
 export const useUserStore = defineStore('user', {
     state: () => ({
@@ -10,44 +13,29 @@ export const useUserStore = defineStore('user', {
 
     actions: {
         async login(credentials) {
-            try {
-                const response = await axios.post('/api/user/login/', credentials);
-
-                this.user = response.data.name;
-                this.auth = response.data.auth;
-                this.token = response.data.token;
-                localStorage.setItem('token', this.token);
-                this.setAxiosToken();
-            } catch (err) {
-                throw err.response.data;
-            }
-        },
-
-        setAxiosToken() {
-            if (this.token) {
-                axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-            }
+            // await axios.get(`${API_URL}/sanctum/csrf-cookie`);
+            const response = await axios.post(`${API_URL}/api/user/login`, credentials);
+            this.user = response.data.name;
+            this.auth = response.data.auth;
+            console.log(response.data);
         },
 
         async logout() {
-            try {
-                await axios.post('/api/user/logout');
-                this.forgetAuth();
-            } catch (error) {
-                console.log(error);
-                if (error.response.status === 401) {
-                    this.forgetAuth();
-                }
-                throw new Error('Ошибка logout');
-            }
-        },
-
-        forgetAuth() {
-            this.token = null;
+            await axios.post(`${API_URL}/api/user/logout`);
             this.user = null;
             this.auth = false;
-            localStorage.removeItem('token');
-            delete axios.defaults.headers.common['Authorization'];
+        },
+
+        async getUser() {
+            try {
+                await axios.get(`${API_URL}/sanctum/csrf-cookie`);
+                const response = await axios.get(`${API_URL}/api/user/get`);
+                this.user = response.data.name;
+                this.auth = response.data.auth;
+                return response.data;
+            } catch {
+                return null;
+            }
         }
     }
 });

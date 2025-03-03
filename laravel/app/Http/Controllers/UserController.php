@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegistrRequest;
 use App\Services\UserClass;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function useGet()
+    public function useGet(UserClass $userClass)
     {
         try {
-
+            return response()->json($userClass->get());
         }catch (\Exception $e) {
             return response()->json($e->getMessage(), $e->getCode());
         }
@@ -31,8 +30,7 @@ class UserController extends Controller
     public function useLogin(UserLoginRequest $request, UserClass $userClass)
     {
         try {
-            $data = $request->all();
-            return response()->json($userClass->login($data));
+            return response()->json($userClass->login($request));
         }catch (\Exception $e) {
             return response()->json($e->getMessage(), $e->getCode());
         }

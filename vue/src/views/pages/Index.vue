@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, inject } from 'vue';
 import axios from 'axios';
 import Toast from 'primevue/toast';
 
@@ -22,6 +22,7 @@ const link = ref(null);
 const visible = ref(false);
 const editData = ref(null);
 const links = computed(() => store.links);
+const API_URL = inject('API_URL');
 
 const addLink = () => {
     axios
@@ -98,7 +99,7 @@ const updateLink = () => {
             <Button type="button" label="Сохранить" @click="updateLink" />
         </div>
     </Dialog>
-    <div class="card">
+    <div v-if="userStore.auth" class="card">
         <InputText class="w-full mr-5 mb-5" type="text" v-model="link" placeholder="Введите ссылку" />
         <Button class="mb-5 w-full" @click="addLink">
             <span>Let's Go</span>
@@ -106,13 +107,13 @@ const updateLink = () => {
         </Button>
     </div>
 
-    <div v-for="link in links" class="card flex flex-column !mb-2 !py-3">
+    <div v-for="link in links" :key="link.id" class="card flex flex-column !mb-2 !py-3">
         <div class="relative flex justify-between w-full items-center flex-wrap">
-            <b class="cursor-pointer">{{ this.$API_URL + '/' + link.alias }}</b>
+            <b class="cursor-pointer">{{ API_URL + '/' + link.alias }}</b>
             <div class="flex">
                 <Button v-if="userStore.auth" icon="pi pi-pen-to-square" @click="editLink(link)" severity="secondary" text />
                 <Button v-if="userStore.auth" icon="pi pi-trash" @click="confirmDelete($event, link.alias)" severity="secondary" text />
-                <Button icon="pi pi-copy" @click="copy(this.$API_URL + '/' + link.alias)" severity="secondary" text />
+                <Button icon="pi pi-copy" @click="copy(API_URL + '/' + link.alias)" severity="secondary" text />
             </div>
         </div>
     </div>
