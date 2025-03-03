@@ -13,6 +13,7 @@ class UserClass
     public function get()
     {
         $user['name'] = Auth::user()->name;
+        $user['authId'] = Auth::user()->id;
         $user['auth'] =  true;
 
         return $user;
@@ -32,6 +33,7 @@ class UserClass
         if(Auth::attempt(['email' => $request->email, 'password' => $request->pass])){
             $user = Auth::user();
             $success['name'] =  $user['name'];
+            $success['authId'] = $user['id'];
             $success['auth'] =  true;
             $success['status'] = 'User login successfully.';
 

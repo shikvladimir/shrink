@@ -111,8 +111,10 @@ const updateLink = () => {
         <div class="relative flex justify-between w-full items-center flex-wrap">
             <b class="cursor-pointer">{{ API_URL + '/' + link.alias }}</b>
             <div class="flex">
-                <Button v-if="userStore.auth" icon="pi pi-pen-to-square" @click="editLink(link)" severity="secondary" text />
-                <Button v-if="userStore.auth" icon="pi pi-trash" @click="confirmDelete($event, link.alias)" severity="secondary" text />
+                <div v-if="link.user_id === userStore.authId">
+                    <Button v-if="userStore.auth" icon="pi pi-pen-to-square" @click="editLink(link)" severity="secondary" text />
+                    <Button v-if="userStore.auth" icon="pi pi-trash" @click="confirmDelete($event, link.alias)" severity="secondary" text />
+                </div>
                 <Button icon="pi pi-copy" @click="copy(API_URL + '/' + link.alias)" severity="secondary" text />
             </div>
         </div>

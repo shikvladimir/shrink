@@ -141,7 +141,7 @@ const login = async () => {
                     </g>
                 </svg>
 
-                <span>SAKAI</span>
+                <span>SHRINK</span>
             </router-link>
         </div>
 
@@ -175,7 +175,7 @@ const login = async () => {
                     <Button v-if="!userStore.auth" label="Вход" @click="loginVisible = true" text />
                     <Button v-if="!userStore.auth" label="Регистрация" @click="registrVisible = true" text />
 
-                    <div v-if="userStore.auth" type="button" class="mr-3 mt-2">
+                    <div v-if="userStore.auth" type="button" class="mr-3 mt-[9px]">
                         <span>Привет, {{ userStore.user }}!</span>
                     </div>
                 </div>

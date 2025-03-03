@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Helpers\Alias;
 use App\Models\Links;
 use App\Repositories\LinkRepository;
+use Illuminate\Support\Facades\Auth;
 
 class LinkClass
 {
@@ -28,6 +29,7 @@ class LinkClass
     public function store(array $data): void
     {
         Links::query()->create([
+            Links::FIELD_USER_ID => Auth::id(),
             Links::FIELD_ALIAS => Alias::index(),
             Links::FIELD_LINK => $data['link'],
         ]);

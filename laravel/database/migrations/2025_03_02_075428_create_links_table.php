@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('links', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id');
             $table->text('alias')->unique();
             $table->longText('link');
             $table->bigInteger('clicks')->default(0);

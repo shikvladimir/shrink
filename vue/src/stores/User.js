@@ -7,15 +7,16 @@ axios.defaults.withCredentials = true;
 export const useUserStore = defineStore('user', {
     state: () => ({
         user: null,
+        authId: null,
         auth: false,
         token: null
     }),
 
     actions: {
         async login(credentials) {
-            // await axios.get(`${API_URL}/sanctum/csrf-cookie`);
             const response = await axios.post(`${API_URL}/api/user/login`, credentials);
             this.user = response.data.name;
+            this.authId = response.data.authId;
             this.auth = response.data.auth;
             console.log(response.data);
         },
@@ -23,6 +24,7 @@ export const useUserStore = defineStore('user', {
         async logout() {
             await axios.post(`${API_URL}/api/user/logout`);
             this.user = null;
+            this.authId = null;
             this.auth = false;
         },
 
@@ -31,6 +33,7 @@ export const useUserStore = defineStore('user', {
                 await axios.get(`${API_URL}/sanctum/csrf-cookie`);
                 const response = await axios.get(`${API_URL}/api/user/get`);
                 this.user = response.data.name;
+                this.authId = response.data.authId;
                 this.auth = response.data.auth;
                 return response.data;
             } catch {
