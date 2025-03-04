@@ -100,8 +100,6 @@ const checkAndRedirect = (link) => {
     axios
         .get(`${API_URL}/api/link/move/${link}`)
         .then((response) => {
-            console.log(response);
-            // window.location.href = response.data;
             window.open(response.data, '_blank');
         })
         .catch((err) => {
@@ -142,12 +140,11 @@ const checkAndRedirect = (link) => {
         <h5 class="outline-1 outline-offset-2 outline-dashed p-10">Войдите или зарегистрируйтесь что бы сократить свою ссылку</h5>
     </div>
 
-    <div v-for="link in links" :key="link.id" class="relative card flex flex-column !mb-6 !py-4">
-        <span class="absolute top-[-5px] text-[12px] underline" v-tooltip.top="link.name">{{ truncate(link?.name) }}</span>
+    <div v-for="link in links" :key="link.id" class="relative card flex flex-column !mb-6 !py-7">
+        <span class="absolute top-[0px] text-[12px] underline" v-tooltip.top="link.name">{{ truncate(link?.name) }}</span>
         <div class="relative flex justify-between w-full items-center flex-wrap">
             <b class="flex items-center cursor-pointer">
                 <span class="rounded-full text-xs bg-blue-300 h-[20px] w-[20px] text-white flex items-center justify-center mr-1">{{ link.clicks }}</span>
-                <!--                <a :href="UI_URL + '/' + link.alias" target="_blank">{{ UI_URL + '/' + link.alias }}</a>-->
                 <span @click="checkAndRedirect(link.alias)">{{ UI_URL + '/' + link.alias }}</span>
             </b>
             <div class="flex absolute right-0 top-4 lg:top-[-5px]">
@@ -158,7 +155,7 @@ const checkAndRedirect = (link) => {
                 <Button icon="pi pi-copy" @click="copy(API_URL + '/' + link.alias)" severity="secondary" text />
             </div>
         </div>
-        <span class="absolute bottom-[-5px] left-[50px] text-[12px]"
+        <span class="absolute bottom-[0px] left-[50px] text-[12px]"
             >Автор: <b>{{ truncate(link.user?.name) }}</b></span
         >
     </div>
