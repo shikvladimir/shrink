@@ -24,7 +24,8 @@ class LinkStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'link' => ['required', 'url']
+            'link' => ['required', 'url'],
+            'name' => ['required', 'string', 'max:255'],
         ];
     }
 
@@ -32,7 +33,8 @@ class LinkStoreRequest extends FormRequest
     {
         return [
             'url' => "Ссылка должна иметь действительный URL-адрес со схемой 'http' или 'https'.",
-            'required' => "Поле обязательно для заполнения."
+            'required' => "Поле обязательно для заполнения.",
+            'max:255' => "Максимальная длинна поле - 255 симвалов.",
         ];
     }
 }

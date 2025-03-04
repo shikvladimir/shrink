@@ -20,6 +20,7 @@ import { useLinkStore } from '@/stores/link';
 const store = useLinkStore();
 
 const link = ref(null);
+const name = ref(null);
 const visible = ref(false);
 const editData = ref(null);
 const links = computed(() => store.links);
@@ -28,7 +29,8 @@ const API_URL = inject('API_URL');
 const addLink = () => {
     axios
         .post('/api/link/store', {
-            link: link.value
+            link: link.value,
+            name: name.value
         })
         .then(() => {
             useLinkStore().getLinks();
@@ -74,7 +76,8 @@ const updateLink = () => {
     axios
         .put('/api/link/update/', {
             alias: editData.value.alias,
-            link: editData.value.link
+            link: editData.value.link,
+            name: editData.value.name
         })
         .then(() => {
             useLinkStore().getLinks();
@@ -92,6 +95,10 @@ const updateLink = () => {
     <Toast />
     <ConfirmPopup></ConfirmPopup>
     <Dialog v-model:visible="visible" modal header="Редактировать ссылку" :style="{ width: '50rem' }">
+        <div class="items-center gap-4 mb-3">
+            <label for="link" class="font-semibold w-24">Название</label>
+            <InputText v-model="editData.name" id="link" class="flex-auto w-full" autocomplete="off" />
+        </div>
         <div class="items-center gap-4 mb-8">
             <label for="link" class="font-semibold w-24">Ссылка</label>
             <InputText v-model="editData.link" id="link" class="flex-auto w-full" autocomplete="off" />
@@ -102,6 +109,7 @@ const updateLink = () => {
         </div>
     </Dialog>
     <div v-if="userStore.auth" class="card">
+        <InputText class="w-full mr-5 mb-3" size="small" type="text" v-model="name" placeholder="Введите название" />
         <InputText class="w-full mr-5 mb-5" type="text" v-model="link" placeholder="Введите ссылку" />
         <Button class="mb-5 w-full" @click="addLink">
             <span>Let's Go</span>
@@ -109,7 +117,8 @@ const updateLink = () => {
         </Button>
     </div>
 
-    <div v-for="link in links" :key="link.id" class="card flex flex-column !mb-2 !py-3">
+    <div v-for="link in links" :key="link.id" class="relative card flex flex-column !mb-2 !py-3">
+        <span class="absolute top-[-5px] text-[12px] underline">{{link.name}}</span>
         <div class="relative flex justify-between w-full items-center flex-wrap">
             <b class="flex items-center cursor-pointer">
                 <span class="rounded-full bg-blue-300 h-[20px] w-[20px] text-white flex items-center justify-center mr-1">{{ link.clicks }}</span>

@@ -12,9 +12,9 @@ class UserClass
 {
     public function get()
     {
-        $user['name'] = Auth::user()->name;
-        $user['authId'] = Auth::user()->id;
-        $user['auth'] =  true;
+        $user['name'] = Auth::user()?->name;
+        $user['authId'] = Auth::user()?->id;
+        $user['auth'] =  !!Auth::user();
 
         return $user;
     }

@@ -41,6 +41,9 @@ import { useUserStore } from '@/stores/User';
 const userStore = useUserStore();
 userStore.getUser().then((user) => {
     if (user) {
+        userStore.user = user.name;
+        userStore.authId = user.authId;
+        userStore.auth = user.auth;
         console.log('Пользователь авторизован:');
     } else {
         console.log('Не авторизован');

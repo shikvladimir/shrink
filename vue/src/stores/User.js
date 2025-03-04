@@ -18,7 +18,6 @@ export const useUserStore = defineStore('user', {
             this.user = response.data.name;
             this.authId = response.data.authId;
             this.auth = response.data.auth;
-            console.log(response.data);
         },
 
         async logout() {
@@ -30,8 +29,9 @@ export const useUserStore = defineStore('user', {
 
         async getUser() {
             try {
-                await axios.get(`${API_URL}/sanctum/csrf-cookie`);
+                // await axios.get(`${API_URL}/sanctum/csrf-cookie`);
                 const response = await axios.get(`${API_URL}/api/user/get`);
+                console.log(response.data);
                 this.user = response.data.name;
                 this.authId = response.data.authId;
                 this.auth = response.data.auth;

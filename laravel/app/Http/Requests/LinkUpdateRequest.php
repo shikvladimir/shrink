@@ -25,7 +25,8 @@ class LinkUpdateRequest extends FormRequest
     {
         return [
             'link' => ['required', 'url'],
-            'alias' => ['required','string']
+            'alias' => ['required','string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
         ];
     }
 
@@ -33,7 +34,8 @@ class LinkUpdateRequest extends FormRequest
     {
         return [
             'url' => "Ссылка должна иметь действительный URL-адрес со схемой 'http' или 'https'.",
-            'required' => "Поле обязательно для заполнения."
+            'required' => "Поле обязательно для заполнения.",
+            'max:255' => "Максимальная длинна поле - 255 симвалов.",
         ];
     }
 }

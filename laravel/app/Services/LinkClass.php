@@ -35,13 +35,17 @@ class LinkClass
             Links::FIELD_USER_ID => Auth::id(),
             Links::FIELD_ALIAS => Alias::index(),
             Links::FIELD_LINK => $data['link'],
+            Links::FIELD_NAME => $data['name'],
         ]);
     }
 
     public function update(array $data): void
     {
         LinkRepository::getByAlias(alias: $data['alias'])
-            ->update([Links::FIELD_LINK => $data['link']]);
+            ->update(
+                    [Links::FIELD_LINK => $data['link'],
+                    Links::FIELD_NAME => $data['name']
+                ]);
     }
 
 
