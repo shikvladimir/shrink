@@ -11,7 +11,7 @@ class LinkRepository implements Interfaces\LinkRepositoryInterface
 {
     public static function getAll (): object
     {
-        return Links::query()->orderByDesc(Links::FIELD_ID)->get();
+        return Links::query()->with('user')->orderByDesc(Links::FIELD_ID)->get();
     }
 
     public static function getByAlias(string $alias): object|null

@@ -10,11 +10,11 @@ class UserController extends Controller
 {
     public function useGet(UserClass $userClass)
     {
-//        try {
+        try {
             return response()->json($userClass->get());
-//        }catch (\Exception $e) {
-//            return response()->json($e->getMessage(), $e->getCode());
-//        }
+        }catch (\Exception $e) {
+            return response()->json($e->getMessage(), $e->getCode());
+        }
     }
 
     public function useRegistr(UserRegistrRequest $request, UserClass $userClass)

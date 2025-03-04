@@ -26,6 +26,7 @@ class LinkClass
 
     public function get(): object
     {
+//        dd(LinkRepository::getAll());
         return LinkRepository::getAll();
     }
 

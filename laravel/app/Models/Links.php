@@ -23,4 +23,9 @@ class Links extends Model
         self::FIELD_LINK,
         self::FIELD_CLICKS,
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class)->selectRaw('id,name');
+    }
 }

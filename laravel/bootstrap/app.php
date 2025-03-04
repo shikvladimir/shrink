@@ -20,7 +20,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(EnsureFrontendRequestsAreStateful::class);
         $middleware->append(StartSession::class);
         $middleware->append(HandleCors::class);
-//        $middleware->append(SubstituteBindings::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

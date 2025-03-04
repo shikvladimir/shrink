@@ -117,14 +117,14 @@ const updateLink = () => {
         </Button>
     </div>
 
-    <div v-for="link in links" :key="link.id" class="relative card flex flex-column !mb-2 !py-3">
+    <div v-for="link in links" :key="link.id" class="relative card flex flex-column !mb-5 !py-3">
         <span class="absolute top-[-5px] text-[12px] underline">{{link.name}}</span>
         <div class="relative flex justify-between w-full items-center flex-wrap">
             <b class="flex items-center cursor-pointer">
                 <span class="rounded-full bg-blue-300 h-[20px] w-[20px] text-white flex items-center justify-center mr-1">{{ link.clicks }}</span>
                 <a :href="API_URL + '/' + link.alias" target="_blank">{{ API_URL + '/' + link.alias }}</a>
             </b>
-            <div class="flex">
+            <div class="flex absolute right-0 top-4 lg:top-[-5px]">
                 <div v-if="link.user_id === userStore.authId">
                     <Button v-if="userStore.auth" icon="pi pi-pen-to-square" @click="editLink(link)" severity="secondary" text />
                     <Button v-if="userStore.auth" icon="pi pi-trash" @click="confirmDelete($event, link.alias)" severity="secondary" text />
@@ -132,6 +132,7 @@ const updateLink = () => {
                 <Button icon="pi pi-copy" @click="copy(API_URL + '/' + link.alias)" severity="secondary" text />
             </div>
         </div>
+        <span class="absolute bottom-[-5px] left-[50px] text-[12px]">Автор: <b>{{link.user.name}}</b></span>
     </div>
 </template>
 
