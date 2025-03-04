@@ -50,26 +50,6 @@ const registr = () => {
         });
 };
 
-// const login = () => {
-//     axios
-//         .post('/api/user/login/', {
-//             email: loginData.email,
-//             pass: loginData.pass
-//         })
-//         .then(() => {
-//             loginVisible.value = false;
-//             loginData.email = null;
-//             loginData.pass = null;
-//
-//             toast.add({ severity: 'info', summary: 'Отлично!', detail: 'Вы вошли!', life: 3000 });
-//         })
-//         .catch((err) => {
-//             Object.entries(err.response.data.errors).forEach((i) => {
-//                 toast.add({ severity: 'error', summary: 'Упс!', detail: i[1][0], life: 3000 });
-//             });
-//         });
-// };
-
 const login = async () => {
     try {
         await userStore.login(loginData);
@@ -101,11 +81,11 @@ const login = async () => {
     <Dialog v-model:visible="registrVisible" modal header="Регистрация" :style="{ width: '25rem' }">
         <div class="flex items-center gap-4 mb-4">
             <label for="name" class="font-semibold w-24">Имя</label>
-            <InputText v-model="registrData.name" id="name" class="flex-auto" autocomplete="off" />
+            <InputText v-model="registrData.name" id="name" class="flex-auto"/>
         </div>
         <div class="flex items-center gap-4 mb-4">
             <label for="email" class="font-semibold w-24">Email</label>
-            <InputText v-model="registrData.email" id="email" class="flex-auto" autocomplete="off" />
+            <InputText v-model="registrData.email" id="email" class="flex-auto"/>
         </div>
         <div class="flex items-center gap-4 mb-8">
             <label for="pass" class="font-semibold w-24">Пароль</label>

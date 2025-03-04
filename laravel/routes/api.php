@@ -4,9 +4,6 @@ use App\Http\Controllers\LinkController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return response()->json($request->user());
-//});
 
 Route::group(['prefix' => 'link', 'middleware' => 'auth:sanctum'], function () {
     Route::get('get',               [LinkController::class, 'useGet'])->withoutMiddleware('auth:sanctum');
@@ -19,7 +16,7 @@ Route::group(['prefix' => 'link', 'middleware' => 'auth:sanctum'], function () {
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function () {
     Route::get('get',               [UserController::class, 'useGet'])->withoutMiddleware('auth:sanctum');
-    Route::post('registr',          [UserController::class, 'useRegistr']);
+    Route::post('registr',          [UserController::class, 'useRegistr'])->withoutMiddleware('auth:sanctum');
     Route::post('login',            [UserController::class, 'useLogin'])->withoutMiddleware('auth:sanctum');
     Route::post('logout',           [UserController::class, 'useLogout']);
 });

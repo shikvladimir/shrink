@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, inject } from 'vue';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 import Toast from 'primevue/toast';
 
 import { useUserStore } from '@/stores/User';
@@ -35,6 +36,7 @@ const addLink = () => {
             toast.add({ severity: 'success', summary: 'Отлично!', detail: 'Ссылка создана', life: 3000 });
         })
         .catch((err) => {
+            console.log(err);
             Object.entries(err.response.data.errors).forEach((i) => {
                 toast.add({ severity: 'error', summary: 'Упс!', detail: i[1][0], life: 3000 });
             });
@@ -109,7 +111,10 @@ const updateLink = () => {
 
     <div v-for="link in links" :key="link.id" class="card flex flex-column !mb-2 !py-3">
         <div class="relative flex justify-between w-full items-center flex-wrap">
-            <b class="cursor-pointer">{{ API_URL + '/' + link.alias }}</b>
+            <b class="flex items-center cursor-pointer">
+                <span class="rounded-full bg-blue-300 h-[20px] w-[20px] text-white flex items-center justify-center mr-1">{{ link.clicks }}</span>
+                <a :href="API_URL + '/' + link.alias" target="_blank">{{ API_URL + '/' + link.alias }}</a>
+            </b>
             <div class="flex">
                 <div v-if="link.user_id === userStore.authId">
                     <Button v-if="userStore.auth" icon="pi pi-pen-to-square" @click="editLink(link)" severity="secondary" text />

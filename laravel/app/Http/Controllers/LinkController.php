@@ -32,7 +32,7 @@ class LinkController extends Controller
             $data = $request->all();
             $linkClass->store($data);
         }catch (\Exception $e) {
-            return response()->json($e->getMessage(), $e->getCode());
+            return response()->json($e->getMessage(), 400);
         }
     }
 

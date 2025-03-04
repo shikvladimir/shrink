@@ -13,12 +13,15 @@ class LinkClass
 {
     public function move(string $alias): string|null
     {
-        $link = LinkRepository::getByAlias(alias:$alias)?->link;
+        $getLink = LinkRepository::getByAlias(alias:$alias);
 
-        if(!$link) {
+        if(!$getLink) {
             abort(404);
         }
-        return LinkRepository::getByAlias(alias:$alias)->link;
+
+        $link = $getLink->link;
+        $getLink->increment('clicks');
+        return $link;
     }
 
     public function get(): object

@@ -17,12 +17,8 @@ if [ ! -f .env ]; then
     sed -i "s/^REDIS_PORT=.*/REDIS_PORT=$REDIS_PORT/" .env
 
     php artisan key:generate
+    composer install
+    php artisan migrate
 fi
-
-#chown -R www-data:www-data /var/www
-#chmod -R 775 /var/www
-
-#apt-get update && apt-get install -y screen
-#su - www-data -c "screen -dmS npm_dev npm run dev"
 
 exec php-fpm
