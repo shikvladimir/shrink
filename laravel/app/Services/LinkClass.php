@@ -26,7 +26,6 @@ class LinkClass
 
     public function get(): object
     {
-//        dd(LinkRepository::getAll());
         return LinkRepository::getAll();
     }
 
@@ -54,10 +53,5 @@ class LinkClass
     public function delete(string $alias): void
     {
         LinkRepository::getByAlias(alias:$alias)->delete();
-    }
-
-    public function count()
-    {
-
     }
 }
