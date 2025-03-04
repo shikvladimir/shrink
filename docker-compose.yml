@@ -17,8 +17,8 @@ services:
         build:
             context: .
             dockerfile: _docker/app/Dockerfile
-        volumes:
-            - ./laravel:/var/www
+#        volumes:
+#            - ./laravel:/var/www
         restart: always
         container_name: app_${APP_NAME}
 

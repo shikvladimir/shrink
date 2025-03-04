@@ -18,7 +18,7 @@ if [ ! -f .env ]; then
 
     php artisan key:generate
     composer install
-    php artisan migrate
+    php artisan migrate:fresh
 fi
 
 exec php-fpm
