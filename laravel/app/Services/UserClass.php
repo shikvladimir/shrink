@@ -40,7 +40,7 @@ class UserClass
             $request->session()->regenerate();
             return $success;
         }
-        throw new \Exception('Unauthorised.');
+        throw new \Exception('Unauthorised.', 401);
     }
 
     public function logout(): void

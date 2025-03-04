@@ -38,11 +38,11 @@ class UserController extends Controller
 
     public function useLogout(UserClass $userClass)
     {
-//        try {
+        try {
             $userClass->logout();
-//        }catch (\Exception $e) {
-//            return response()->json($e->getMessage(), $e->getCode());
-//        }
+        }catch (\Exception $e) {
+            return response()->json($e->getMessage(), $e->getCode());
+        }
     }
 
 

@@ -16,7 +16,7 @@ class LinkClass
         $getLink = LinkRepository::getByAlias(alias:$alias);
 
         if(!$getLink) {
-            abort(404);
+            throw new \Exception('Ссылка не найдена',404);
         }
 
         $link = $getLink->link;

@@ -54,9 +54,11 @@ const login = async () => {
     try {
         await userStore.login(loginData);
         loginVisible.value = false;
-    } catch (error) {
-        console.log(error);
-        alert('Ошибка входа');
+    } catch (err) {
+        console.log(err);
+        Object.entries(err.response.data.errors).forEach((i) => {
+            toast.add({ severity: 'error', summary: 'Упс!', detail: i[1][0], life: 3000 });
+        });
     }
 };
 </script>
@@ -64,13 +66,13 @@ const login = async () => {
 <template>
     <Toast />
     <Dialog v-model:visible="loginVisible" modal header="Вход" :style="{ width: '25rem' }">
-        <div class="flex items-center gap-4 mb-4">
+        <div class="flex items-center gap-8 mb-4">
             <label for="login" class="font-semibold w-24">Email</label>
             <InputText v-model="loginData.email" id="login" class="flex-auto" />
         </div>
-        <div class="flex items-center gap-4 mb-8">
+        <div class="flex items-center gap-8 mb-8">
             <label for="pass" class="font-semibold w-24">Пароль</label>
-            <InputText v-model="loginData.pass" id="pass" class="flex-auto" autocomplete="off" />
+            <Password v-model="loginData.pass" class="flex" id="pass" autocomplete="off" :feedback="false" toggleMask />
         </div>
         <div class="flex justify-end gap-2">
             <Button type="button" label="Отмена" severity="secondary" @click="loginVisible = false"></Button>
@@ -79,17 +81,17 @@ const login = async () => {
     </Dialog>
 
     <Dialog v-model:visible="registrVisible" modal header="Регистрация" :style="{ width: '25rem' }">
-        <div class="flex items-center gap-4 mb-4">
+        <div class="flex items-center gap-8 mb-4">
             <label for="name" class="font-semibold w-24">Имя</label>
-            <InputText v-model="registrData.name" id="name" class="flex-auto"/>
+            <InputText v-model="registrData.name" id="name" class="flex-auto" />
         </div>
-        <div class="flex items-center gap-4 mb-4">
+        <div class="flex items-center gap-8 mb-4">
             <label for="email" class="font-semibold w-24">Email</label>
-            <InputText v-model="registrData.email" id="email" class="flex-auto"/>
+            <InputText v-model="registrData.email" id="email" class="flex-auto" />
         </div>
-        <div class="flex items-center gap-4 mb-8">
+        <div class="flex items-center gap-8 mb-8">
             <label for="pass" class="font-semibold w-24">Пароль</label>
-            <InputText v-model="registrData.pass" id="pass" class="flex-auto" autocomplete="off" />
+            <Password v-model="registrData.pass" class="flex" id="pass" autocomplete="off" :feedback="false" toggleMask />
         </div>
         <div class="flex justify-end gap-2">
             <Button type="button" label="Отмена" severity="secondary" @click="registrVisible = false"></Button>

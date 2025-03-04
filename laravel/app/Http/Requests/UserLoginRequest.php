@@ -22,7 +22,17 @@ class UserLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => 'required|email',
+            'pass' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.required' => 'Поле "Email" обязательно для заполнения.',
+            'email.email' => 'Поле "Email" должно быть действительным email-адресом.',
+            'pass.required' => 'Поле "Пароль" обязательно для заполнения.',
         ];
     }
 }
