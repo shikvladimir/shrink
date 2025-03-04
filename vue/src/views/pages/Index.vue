@@ -25,6 +25,7 @@ const visible = ref(false);
 const editData = ref(null);
 const links = computed(() => store.links);
 const API_URL = inject('API_URL');
+const UI_URL = inject('UI_URL');
 
 const addLink = () => {
     axios
@@ -89,6 +90,8 @@ const updateLink = () => {
             console.log(err.data);
         });
 };
+
+const truncate = (str) => str.length > 50 ? str.slice(0, 47) + "..." : str;
 </script>
 
 <template>
@@ -108,6 +111,7 @@ const updateLink = () => {
             <Button type="button" label="Сохранить" @click="updateLink" />
         </div>
     </Dialog>
+    <h1 class="text-center">Линкуй и сокращай</h1>
     <div v-if="userStore.auth" class="card">
         <InputText class="w-full mr-5 mb-3" size="small" type="text" v-model="name" placeholder="Введите название" />
         <InputText class="w-full mr-5 mb-5" type="text" v-model="link" placeholder="Введите ссылку" />
@@ -117,12 +121,12 @@ const updateLink = () => {
         </Button>
     </div>
 
-    <div v-for="link in links" :key="link.id" class="relative card flex flex-column !mb-5 !py-3">
-        <span class="absolute top-[-5px] text-[12px] underline">{{link.name}}</span>
+    <div v-for="link in links" :key="link.id" class="relative card flex flex-column !mb-6 !py-3">
+        <span class="absolute top-[-5px] text-[12px] underline" v-tooltip.top="link.name">{{truncate(link.name)}}</span>
         <div class="relative flex justify-between w-full items-center flex-wrap">
             <b class="flex items-center cursor-pointer">
                 <span class="rounded-full bg-blue-300 h-[20px] w-[20px] text-white flex items-center justify-center mr-1">{{ link.clicks }}</span>
-                <a :href="API_URL + '/' + link.alias" target="_blank">{{ API_URL + '/' + link.alias }}</a>
+                <a :href="UI_URL + '/' + link.alias" target="_blank">{{ UI_URL + '/' + link.alias }}</a>
             </b>
             <div class="flex absolute right-0 top-4 lg:top-[-5px]">
                 <div v-if="link.user_id === userStore.authId">
@@ -132,7 +136,7 @@ const updateLink = () => {
                 <Button icon="pi pi-copy" @click="copy(API_URL + '/' + link.alias)" severity="secondary" text />
             </div>
         </div>
-        <span class="absolute bottom-[-5px] left-[50px] text-[12px]">Автор: <b>{{link.user.name}}</b></span>
+        <span class="absolute bottom-[-5px] left-[50px] text-[12px]">Автор: <b>{{truncate(link.user.name)}}</b></span>
     </div>
 </template>
 

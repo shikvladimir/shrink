@@ -9,7 +9,6 @@ import Index from '@/views/pages/Index.vue';
 
 <template>
     <Index />
-
     <!--    <div class="grid grid-cols-12 gap-8">-->
     <!--        <StatsWidget />-->
     <!--        <div class="col-span-12 xl:col-span-6">-->

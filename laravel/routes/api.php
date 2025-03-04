@@ -11,6 +11,7 @@ Route::group(['prefix' => 'link', 'middleware' => 'auth:sanctum'], function () {
     Route::put('update',            [LinkController::class, 'useUpdate']);
     Route::delete('delete/{alias}', [LinkController::class, 'useDelete']);
     Route::get('count',             [LinkController::class, 'useCount']);
+    Route::get('move/{alias}',      [LinkController::class, 'useMove'])->withoutMiddleware('auth:sanctum');
 });
 
 

@@ -11,9 +11,9 @@ class LinkController extends Controller
     public function useMove($alias, LinkClass $linkClass)
     {
         try {
-            return redirect($linkClass->move($alias));
+            return response()->json($linkClass->move($alias));
         }catch (\Exception $e) {
-            return redirect($linkClass->move($alias));
+            return response()->json($e->getMessage(), $e->getCode());
         }
     }
 
