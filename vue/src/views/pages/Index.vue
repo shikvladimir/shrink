@@ -152,7 +152,7 @@ const checkAndRedirect = (link) => {
                     <Button v-if="userStore.auth" icon="pi pi-pen-to-square" @click="editLink(link)" severity="secondary" text />
                     <Button v-if="userStore.auth" icon="pi pi-trash" @click="confirmDelete($event, link.alias)" severity="secondary" text />
                 </div>
-                <Button icon="pi pi-copy" @click="copy(API_URL + '/' + link.alias)" severity="secondary" text />
+                <Button icon="pi pi-copy" @click="copy(UI_URL + '/' + link.alias)" severity="secondary" text />
             </div>
         </div>
         <span class="absolute bottom-[0px] left-[50px] text-[12px]"
