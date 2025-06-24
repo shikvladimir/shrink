@@ -22,18 +22,6 @@ services:
         restart: always
         container_name: app_${APP_NAME}
 
-#    supervisor:
-#        env_file:
-#            - ./.env
-#        build:
-#            context: .
-#            dockerfile: _docker/supervisor/Dockerfile
-#        volumes:
-#            - ./laravel:/var/www
-#            - ./_docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf
-#        restart: always
-#        container_name: supervisor_${APP_NAME}
-
     db:
         image: mysql:8.0
         restart: always

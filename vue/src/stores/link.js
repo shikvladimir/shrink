@@ -10,7 +10,7 @@ export const useLinkStore = defineStore('link', {
         async getLinks() {
             try {
                 const response = await axios.get('/api/link/get');
-                this.links = response.data;
+                this.links = response.data.data;
             } catch (err) {
                 throw err.response.data;
             }

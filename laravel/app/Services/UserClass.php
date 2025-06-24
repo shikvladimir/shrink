@@ -1,9 +1,11 @@
 <?php
+declare (strict_types = 1);
 
 
 namespace App\Services;
 
 
+use App\DTO\RegisterUserDTO;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,16 +21,16 @@ class UserClass
         return $user;
     }
 
-    public function register(array $data): void
+    public function register(RegisterUserDTO $data): void
     {
         User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['pass']),
+            'name' => $data->name,
+            'email' => $data->email,
+            'password' => Hash::make($data->pass),
         ]);
     }
 
-    public function login(object $request)
+    public function login(object $request): array|\Exception
     {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->pass])){
             $user = Auth::user();
@@ -40,7 +42,8 @@ class UserClass
             $request->session()->regenerate();
             return $success;
         }
-        throw new \Exception('Unauthorised.', 401);
+
+        throw new \Exception('Неверный логин или пароль.', 401);
     }
 
     public function logout(): void

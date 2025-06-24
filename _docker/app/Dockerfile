@@ -21,22 +21,22 @@ RUN apt-get update && apt-get install -y \
     unzip \
     nano \
     tree \
-    fish \
+    fish
 # imagik
-    libmagickwand-dev --no-install-recommends && \
-    pecl install imagick && \
-    docker-php-ext-enable imagick
+#    libmagickwand-dev --no-install-recommends && \
+#    pecl install imagick && \
+#    docker-php-ext-enable imagick
 # end imagik
 
 
-RUN apt-get update && apt-get install -y \
-    && pecl install redis \
-    && docker-php-ext-enable redis
+#RUN apt-get update && apt-get install -y \
+#    && pecl install redis \
+#    && docker-php-ext-enable redis
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install PHP extensions
-RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
+#RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 COPY ./_docker/app/php.ini /usr/local/etc/php/php.ini

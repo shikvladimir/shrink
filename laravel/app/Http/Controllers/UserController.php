@@ -1,7 +1,10 @@
 <?php
+declare (strict_types = 1);
 
 namespace App\Http\Controllers;
 
+use App\DTO\RegisterUserDTO;
+use App\Helpers\ApiResponse;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegistrRequest;
 use App\Services\UserClass;
@@ -10,40 +13,21 @@ class UserController extends Controller
 {
     public function useGet(UserClass $userClass)
     {
-        try {
-            return response()->json($userClass->get());
-        }catch (\Exception $e) {
-            return response()->json($e->getMessage(), $e->getCode());
-        }
+        return ApiResponse::try(fn() => $userClass->get());
     }
 
     public function useRegistr(UserRegistrRequest $request, UserClass $userClass)
     {
-        try {
-            $data = $request->all();
-            $userClass->register(data:$data);
-        }catch (\Exception $e) {
-            return response()->json($e->getMessage(), $e->getCode());
-        }
+        return ApiResponse::try(fn() => $userClass->register(data:RegisterUserDTO::fromRequest($request)));
     }
 
     public function useLogin(UserLoginRequest $request, UserClass $userClass)
     {
-        try {
-            return response()->json($userClass->login($request));
-        }catch (\Exception $e) {
-            return response()->json($e->getMessage(), $e->getCode());
-        }
+        return ApiResponse::try(fn() => $userClass->login(request:$request));
     }
 
     public function useLogout(UserClass $userClass)
     {
-        try {
-            $userClass->logout();
-        }catch (\Exception $e) {
-            return response()->json($e->getMessage(), $e->getCode());
-        }
+        return ApiResponse::try(fn() => $userClass->logout());
     }
-
-
 }

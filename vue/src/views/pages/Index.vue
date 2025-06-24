@@ -24,6 +24,7 @@ const store = useLinkStore();
 
 const link = ref(null);
 const name = ref(null);
+const wait = ref(false);
 const visible = ref(false);
 const editData = ref(null);
 const links = computed(() => store.links);
@@ -31,6 +32,7 @@ const API_URL = inject('API_URL');
 const UI_URL = inject('UI_URL');
 
 const addLink = () => {
+    wait.value = true
     axios
         .post('/api/link/store', {
             link: link.value,
@@ -39,9 +41,12 @@ const addLink = () => {
         .then(() => {
             useLinkStore().getLinks();
             link.value = null;
+            name.value = null;
+            wait.value = false
             toast.add({ severity: 'success', summary: 'Отлично!', detail: 'Ссылка создана', life: 3000 });
         })
         .catch((err) => {
+            wait.value = false
             console.log(err);
             Object.entries(err.response.data.errors).forEach((i) => {
                 toast.add({ severity: 'error', summary: 'Упс!', detail: i[1][0], life: 3000 });
@@ -100,7 +105,7 @@ const checkAndRedirect = (link) => {
     axios
         .get(`${API_URL}/api/link/move/${link}`)
         .then((response) => {
-            window.open(response.data, '_blank');
+            window.open(response.data.data, '_blank');
         })
         .catch((err) => {
             route.name({ name: 'NotFound' });
@@ -126,14 +131,13 @@ const checkAndRedirect = (link) => {
             <Button type="button" label="Сохранить" @click="updateLink" />
         </div>
     </Dialog>
-    <h1 class="text-center">Линкуй и сокращай</h1>
+    <h1 class="text-center">
+        Let's Go!
+    </h1>
     <div v-if="userStore.auth" class="card">
         <InputText class="w-full mr-5 mb-3" size="small" type="text" v-model="name" placeholder="Введите название" />
         <InputText class="w-full mr-5 mb-5" type="text" v-model="link" placeholder="Введите ссылку" />
-        <Button class="mb-5 w-full" @click="addLink">
-            <span>Let's Go</span>
-            <i class="pi pi-arrow-right"></i>
-        </Button>
+        <Button :loading="wait" class="mb-5 w-full" label="Пуффф" icon="pi pi-arrow-right" iconPos="right" @click="addLink" />
     </div>
 
     <div v-if="!links" class="text-center mt-20 mx-5">

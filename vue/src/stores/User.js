@@ -15,9 +15,9 @@ export const useUserStore = defineStore('user', {
     actions: {
         async login(credentials) {
             const response = await axios.post(`${API_URL}/api/user/login`, credentials);
-            this.user = response.data.name;
-            this.authId = response.data.authId;
-            this.auth = response.data.auth;
+            this.user = response.data.data.name;
+            this.authId = response.data.data.authId;
+            this.auth = response.data.data.auth;
         },
 
         async logout() {
@@ -31,10 +31,10 @@ export const useUserStore = defineStore('user', {
             try {
                 // await axios.get(`${API_URL}/sanctum/csrf-cookie`);
                 const response = await axios.get(`${API_URL}/api/user/get`);
-                this.user = response.data.name;
-                this.authId = response.data.authId;
-                this.auth = response.data.auth;
-                return response.data;
+                this.user = response.data.data.name;
+                this.authId = response.data.data.authId;
+                this.auth = response.data.data.auth;
+                return response.data.data;
             } catch {
                 return null;
             }

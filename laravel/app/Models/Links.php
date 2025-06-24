@@ -3,7 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * App\Models\Links
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $alias
+ * @property string|null $name
+ * @property string $link
+ * @property int $clicks
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ *
+ * @property \App\Models\User $user
+ *
+ * @mixin \Eloquent
+ */
 class Links extends Model
 {
     const TABLE = 'links';
@@ -24,6 +41,9 @@ class Links extends Model
         self::FIELD_CLICKS,
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class)->selectRaw('id,name');

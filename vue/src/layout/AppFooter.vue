@@ -1,8 +1,10 @@
-<script setup></script>
+<script setup>
+</script>
 
 <template>
     <div class="layout-footer">
-        SHRINK by
-        <a href="https://primevue.org" target="_blank" rel="noopener noreferrer" class="text-primary font-bold hover:underline">PrimeVue</a>
+        <span class="text-primary font-bold">
+            EvilCut
+        </span>
     </div>
 </template>

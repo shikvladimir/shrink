@@ -20,7 +20,7 @@ const router = createRouter({
                     beforeEnter: async (to, from, next) => {
                         try {
                             const response = await axios.get(`http://127.0.0.1:8897/api/link/move/${to.params.alias}`);
-                            window.location.href = response.data;
+                            window.location.href = response.data.data;
                             next(false);
                         } catch (error) {
                             next({ name: "NotFound" });
